@@ -7,6 +7,8 @@ import {
 	Modal,
 	Button,
 	Box,
+	Select,
+	MenuItem,
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
@@ -24,11 +26,13 @@ function Todo({ todo }) {
 
 	const [open, setOpen] = useState(false);
 	const [input, setInput] = useState(todo.todo);
+	const [priority, setPriority] = useState(todo.priority);
 
 	const updateTodo = (event) => {
 		event.preventDefault();
 		updateDoc(doc(db, "todos", todo.id), {
 			text: input,
+			priority: priority,
 		});
 		setOpen(false);
 	};
@@ -40,11 +44,26 @@ function Todo({ todo }) {
 					<FormControl className="modal__form_control">
 						<FormLabel className="form__label">✍️ Edit your todo</FormLabel>
 						<div className="modal__input">
-							<Input
-								id="my-input"
-								value={input}
-								onChange={(event) => setInput(event.target.value)}
-							/>
+							<FormControl>
+								<Input value={input} onChange={(event) => setInput(event.target.value)} />
+							</FormControl>
+							<FormControl>
+								<Select
+									value={priority}
+									onChange={(event) => setPriority(event.target.value)}
+									className="form__select"
+								>
+									<MenuItem value="Low 🟢" className="select__item">
+										Low 🟢
+									</MenuItem>
+									<MenuItem value="Medium 🟡" className="select__item">
+										Medium 🟡
+									</MenuItem>
+									<MenuItem value="High 🔴" className="select__item">
+										High 🔴
+									</MenuItem>
+								</Select>
+							</FormControl>
 							<Button disabled={!input} type="submit" onClick={updateTodo} className="update">
 								Update Todo
 							</Button>
@@ -52,8 +71,8 @@ function Todo({ todo }) {
 					</FormControl>
 				</ModalStyled>
 			</Modal>
-			<ListItemStyled>
-				<ListItemText primary={todo.todo} secondary="Dummy priority 🔴" />
+			<ListItemStyled key={todo.id}>
+				<ListItemText primary={todo.todo} secondary={todo.priority} />
 				<EditIcon onClick={(e) => setOpen(true)} className="edit" />
 				<DeleteForeverIcon onClick={handleDeleteTodo} variant="contained" className="delete" />
 			</ListItemStyled>
