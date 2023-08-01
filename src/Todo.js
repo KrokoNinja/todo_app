@@ -1,13 +1,12 @@
 import {
 	FormControl,
 	FormLabel,
-	InputLabel,
 	Input,
-	List,
 	ListItem,
 	ListItemText,
 	Modal,
 	Button,
+	Box,
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
@@ -16,20 +15,6 @@ import React, { useState } from "react";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import db from "./firebase";
 import styled from "styled-components";
-
-const styles = {
-	modal: {
-		position: "absolute",
-		top: "50%",
-		left: "50%",
-		width: 400,
-		backgroundColor: "white",
-		border: "2px solid #000",
-		boxShadow: 24,
-		p: 4,
-		transform: "translate(-50%, -50%)",
-	},
-};
 
 function Todo({ todo }) {
 	const handleDeleteTodo = (event) => {
@@ -51,9 +36,9 @@ function Todo({ todo }) {
 	return (
 		<>
 			<Modal open={open} onClose={(e) => setOpen(false)}>
-				<div style={styles.modal}>
-					<FormControlStyled>
-						<FormLabel className="form__label">✅ Edit your todo</FormLabel>
+				<ModalStyled>
+					<FormControl className="modal__form_control">
+						<FormLabel className="form__label">✍️ Edit your todo</FormLabel>
 						<div className="modal__input">
 							<Input
 								id="my-input"
@@ -64,27 +49,24 @@ function Todo({ todo }) {
 								Update Todo
 							</Button>
 						</div>
-					</FormControlStyled>
-				</div>
+					</FormControl>
+				</ModalStyled>
 			</Modal>
-			<ListStyled>
-				<ListItem>
-					<ListItemText primary={todo.todo} secondary="Dummy expire date 🕧" />
-				</ListItem>
+			<ListItemStyled>
+				<ListItemText primary={todo.todo} secondary="Dummy priority 🔴" />
 				<EditIcon onClick={(e) => setOpen(true)} className="edit" />
 				<DeleteForeverIcon onClick={handleDeleteTodo} variant="contained" className="delete" />
-			</ListStyled>
+			</ListItemStyled>
 		</>
 	);
 }
 
 export default Todo;
 
-const ListStyled = styled(List)`
+const ListItemStyled = styled(ListItem)`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-right: 40px;
 	flex-direction: row;
 
 	.MuiSvgIcon-root {
@@ -111,19 +93,34 @@ const ListStyled = styled(List)`
 	}
 `;
 
-const FormControlStyled = styled(FormControl)`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin: 20px;
+const ModalStyled = styled(Box)`
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 50%;
+	border: 2px solid #000;
+	background-color: #fff;
+	box-shadow: 24;
+	transform: translate(-50%, -50%);
 
-	.form__label {
-		margin-bottom: 20px;
+	@media (max-width: 768px) {
+		width: 90%;
 	}
 
-	.modal__input {
-		.update {
-			margin-left: 10px;
+	.modal__form_control {
+		display: flex;
+		justify-content: center;
+		align-items: center !important;
+		margin: 20px;
+
+		.form__label {
+			margin-bottom: 20px;
+		}
+
+		.modal__input {
+			.update {
+				margin-left: 10px;
+			}
 		}
 	}
 `;
