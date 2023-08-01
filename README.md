@@ -1,3 +1,5 @@
+# Changes to be made
+
 You have to create a 'firebase.js' file with your firebaseConfig pasted in, in the 'src' folder.
 It should look like this
 ```
@@ -11,6 +13,14 @@ const firebaseApp = initializeApp({
 const db = getFirestore(firebaseApp);
 
 export default db;
+```
+Also change the default project to your Projects name in the .firebaserc file
+```
+{
+  "projects": {
+    "default": "Project Name"
+  }
+}
 ```
 
 # Getting Started with Create React App
