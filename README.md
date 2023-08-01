@@ -1,3 +1,28 @@
+# Changes to be made
+
+You have to create a 'firebase.js' file with your firebaseConfig pasted in, in the 'src' folder.
+It should look like this
+```
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseApp = initializeApp({
+	//Put your firebaseConfig here
+});
+
+const db = getFirestore(firebaseApp);
+
+export default db;
+```
+Also change the default project to your Projects name in the .firebaserc file
+```
+{
+  "projects": {
+    "default": "Project Name"
+  }
+}
+```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
