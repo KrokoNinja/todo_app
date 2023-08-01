@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, FormControl, Input, MenuItem, Select } from "@mui/material";
 import "./App.css";
 import Todo from "./Todo";
-import db from "./firebase";
+import db from "../firebase";
 import {
 	addDoc,
 	collection,
