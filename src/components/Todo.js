@@ -1,15 +1,4 @@
-import {
-	FormControl,
-	FormLabel,
-	Input,
-	ListItem,
-	ListItemText,
-	Modal,
-	Button,
-	Box,
-	Select,
-	MenuItem,
-} from "@mui/material";
+import { ListItem, ListItemText } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import "./Todo.css";
@@ -17,6 +6,7 @@ import React, { useState } from "react";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import db from "../firebase";
 import styled from "styled-components";
+import EditTodoModal from "./EditTodoModal";
 
 function Todo({ todo }) {
 	const handleDeleteTodo = (event) => {
@@ -25,55 +15,26 @@ function Todo({ todo }) {
 	};
 
 	const [open, setOpen] = useState(false);
-	const [input, setInput] = useState(todo.todo);
-	const [priority, setPriority] = useState(todo.priority);
 
-	const updateTodo = (event) => {
-		event.preventDefault();
-		updateDoc(doc(db, "todos", todo.id), {
-			text: input,
-			priority: priority,
+	const handleUpdateTodo = (todoId, updatedText, updatedPriority) => {
+		updateDoc(doc(db, "todos", todoId), {
+			text: updatedText,
+			priority: updatedPriority,
 		});
 		setOpen(false);
 	};
 
 	return (
 		<>
-			<Modal open={open} onClose={(e) => setOpen(false)}>
-				<ModalStyled>
-					<FormControl className="modal__form_control">
-						<FormLabel className="form__label">✍️ Edit your todo</FormLabel>
-						<div className="modal__input">
-							<FormControl>
-								<Input value={input} onChange={(event) => setInput(event.target.value)} />
-							</FormControl>
-							<FormControl>
-								<Select
-									value={priority}
-									onChange={(event) => setPriority(event.target.value)}
-									className="form__select"
-								>
-									<MenuItem value="Low 🟢" className="select__item">
-										Low 🟢
-									</MenuItem>
-									<MenuItem value="Medium 🟡" className="select__item">
-										Medium 🟡
-									</MenuItem>
-									<MenuItem value="High 🔴" className="select__item">
-										High 🔴
-									</MenuItem>
-								</Select>
-							</FormControl>
-							<Button disabled={!input} type="submit" onClick={updateTodo} className="update">
-								Update Todo
-							</Button>
-						</div>
-					</FormControl>
-				</ModalStyled>
-			</Modal>
 			<ListItemStyled key={todo.id}>
 				<ListItemText primary={todo.todo} secondary={todo.priority} />
-				<EditIcon onClick={(e) => setOpen(true)} className="edit" />
+				<EditIcon onClick={() => setOpen(true)} className="edit" />
+				<EditTodoModal
+					todo={todo}
+					open={open}
+					onClose={() => setOpen(false)}
+					onUpdate={handleUpdateTodo}
+				/>
 				<DeleteForeverIcon onClick={handleDeleteTodo} variant="contained" className="delete" />
 			</ListItemStyled>
 		</>
@@ -108,38 +69,6 @@ const ListItemStyled = styled(ListItem)`
 		&:focus {
 			color: blue;
 			background-color: rgba(0, 0, 255, 0.1);
-		}
-	}
-`;
-
-const ModalStyled = styled(Box)`
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 50%;
-	border: 2px solid #000;
-	background-color: #fff;
-	box-shadow: 24;
-	transform: translate(-50%, -50%);
-
-	@media (max-width: 768px) {
-		width: 90%;
-	}
-
-	.modal__form_control {
-		display: flex;
-		justify-content: center;
-		align-items: center !important;
-		margin: 20px;
-
-		.form__label {
-			margin-bottom: 20px;
-		}
-
-		.modal__input {
-			.update {
-				margin-left: 10px;
-			}
 		}
 	}
 `;
