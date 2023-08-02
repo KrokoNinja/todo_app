@@ -22,7 +22,7 @@ function EditTodoModal({ todo, open, onClose, onUpdate }) {
 						<FormControl>
 							<Input value={input} onChange={(event) => setInput(event.target.value)} />
 						</FormControl>
-						<FormControl>
+						<FormControl className="form__select">
 							<Select
 								value={priority}
 								onChange={(event) => setPriority(event.target.value)}
@@ -76,7 +76,15 @@ const ModalStyled = styled(Box)`
 		}
 
 		.modal__input {
+			display: flex;
+			justify-content: center;
+			align-items: center !important;
+
 			.update {
+				margin-left: 10px;
+			}
+
+			.form__select {
 				margin-left: 10px;
 			}
 		}

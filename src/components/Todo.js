@@ -48,6 +48,10 @@ const ListItemStyled = styled(ListItem)`
 	justify-content: space-between;
 	align-items: center;
 	flex-direction: row;
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	margin: 10px 0;
+	padding: 10px;
 
 	.MuiSvgIcon-root {
 		cursor: pointer;

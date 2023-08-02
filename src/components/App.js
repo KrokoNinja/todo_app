@@ -153,6 +153,11 @@ const FormControlStyled = styled(FormControl)`
 
 	.form__div {
 		margin-bottom: 30px !important;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: row !important;
+	}
 
 	.form__select {
 		margin-left: 10px !important;
