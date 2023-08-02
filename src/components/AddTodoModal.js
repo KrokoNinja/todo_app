@@ -10,6 +10,8 @@ function AddTodoModal({ open, onClose, onAdd }) {
 	const handleAddTodo = (event) => {
 		// Call the parent component's onUpdate function to update the todo
 		onAdd(input, priority);
+		setInput("");
+		setPriority("Low 🟢");
 
 		// Close the modal
 		onClose();
